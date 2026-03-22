@@ -41,9 +41,9 @@ print("Hier sind die ersten Sätze von Bain:")
 print(head(text_data, 5))
 
 # 8. Save the raw data securely to our data_raw folder
-# NEU: Wir sagen R, es soll den Ordner 'data_raw' erstellen, falls er fehlt
+# NEU: Wir sagen R, es soll den Ordner 'data_raw' erstellen, falls er fehlt!
 dir.create("data_raw", showWarnings = FALSE)
 
 # We use CSV (Comma Separated Values), which is the standard format for data analysis
 write_csv(text_data, "data_raw/bain_what_we_believe.csv")
-print(" SUCCESS: Daten wurden erfolgreich im Ordner 'data_raw' gespeichert")
+print("SUCCESS: Daten wurden erfolgreich im Ordner 'data_raw' gespeichert!")
