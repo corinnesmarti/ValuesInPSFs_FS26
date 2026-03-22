@@ -32,12 +32,12 @@ all_links <- tibble(
   # NEU: Aus relativen Pfaden absolute URLs machen (z.B. mit https:// davor)
   mutate(link_url = url_absolute(link_url, base = test_url))
 
-# 6. The Heuristic: Filter for relevant "About us" / "Values" pages
-# FIX: Added \\b (word boundaries) so "mission" doesn't match "Kommissionen"
+# 6. The Heuristic: Filter for relevant "About us" / "Values" / "Culture" pages
+# FIX: Added \\b (word boundaries) and "culture" per professor's feedback
 value_pages <- all_links %>%
   filter(
-    str_detect(link_url, "(?i)\\b(about|values|purpose|mission|vision|leitbild)\\b|ueber-uns") |
-      str_detect(link_text, "(?i)\\b(about|values|purpose|mission|vision|leitbild)\\b|über uns")
+    str_detect(link_url, "(?i)\\b(about|values|purpose|mission|vision|leitbild|culture)\\b|ueber-uns") |
+      str_detect(link_text, "(?i)\\b(about|values|purpose|mission|vision|leitbild|culture)\\b|über uns")
   )
 
 # 7. Print the filtered results
