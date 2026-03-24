@@ -1,0 +1,61 @@
+company,industry,url,status
+Accenture,Consulting,https://www.accenture.com,Success
+AlixPartners,Consulting,https://www.alixpartners.com,Success
+Allen & Overy,Law,https://www.allenovery.com,Blocked/Error
+Alvarez & Marsal,Consulting,https://www.alvarezandmarsal.com,Blocked/Error
+Arthur D. Little,Consulting,https://www.adlittle.com,Blocked/Error
+Ashurst,Law,https://www.ashurst.com,Success
+Bain & Company,Consulting,https://www.bain.com,Success
+Baker McKenzie,Law,https://www.bakermckenzie.com,Success
+Bär & Karrer,Law,https://www.baerkarrer.ch,Blocked/Error
+BDO,Consulting,https://www.bdo.com,Success
+BearingPoint,Consulting,https://www.bearingpoint.com,Success
+Boston Consulting Group,Consulting,https://www.bcg.com,Blocked/Error
+Capgemini Invent,Consulting,https://www.capgemini.com,Success
+Charles River Associates,Consulting,https://www.crai.com,Success
+Cleary Gottlieb,Law,https://www.clearygottlieb.com,Success
+Clifford Chance,Law,https://www.cliffordchance.com,Success
+CMS,Law,https://cms.law,Blocked/Error
+Covington & Burling,Law,https://www.cov.com,Success
+Davis Polk,Law,https://www.davispolk.com,Success
+Deloitte,Consulting,https://www.deloitte.com,Success
+Dentons,Law,https://www.dentons.com,Blocked/Error
+DLA Piper,Law,https://www.dlapiper.com,Blocked/Error
+EY,Consulting,https://www.ey.com,Success
+Freshfields Bruckhaus Deringer,Law,https://www.freshfields.com,Success
+FTI Consulting,Consulting,https://www.fticonsulting.com,Success
+Gibson Dunn,Law,https://www.gibsondunn.com,Success
+Grant Thornton,Consulting,https://www.grantthornton.com,Success
+Herbert Smith Freehills,Law,https://www.herbertsmithfreehills.com,Blocked/Error
+Hogan Lovells,Law,https://www.hoganlovells.com,Blocked/Error
+Homburger,Law,https://www.homburger.ch,Success
+Horváth,Consulting,https://www.horvath-partners.com,Blocked/Error
+Huron Consulting,Consulting,https://www.huronconsultinggroup.com,Success
+Jones Day,Law,https://www.jonesday.com,Success
+K&L Gates,Law,https://www.klgates.com,Success
+Kearney,Consulting,https://www.kearney.com,Blocked/Error
+Kirkland & Ellis,Law,https://www.kirkland.com,Blocked/Error
+KPMG,Consulting,https://www.kpmg.com,Success
+L.E.K. Consulting,Consulting,https://www.lek.com,Success
+Latham & Watkins,Law,https://www.lw.com,Success
+Lenz & Staehelin,Law,https://www.lenzstaehelin.com,Success
+Linklaters,Law,https://www.linklaters.com,Success
+Mayer Brown,Law,https://www.mayerbrown.com,Success
+McKinsey & Company,Consulting,https://www.mckinsey.com,Blocked/Error
+Mercer,Consulting,https://www.mercer.com,Blocked/Error
+Niederer Kraft Frey,Law,https://www.nkf.ch,Success
+Norton Rose Fulbright,Law,https://www.nortonrosefulbright.com,Blocked/Error
+Oliver Wyman,Consulting,https://www.oliverwyman.com,Blocked/Error
+Pestalozzi,Law,https://www.pestalozzilaw.com,Success
+PwC,Consulting,https://www.pwc.com,Success
+Roland Berger,Consulting,https://www.rolandberger.com,Success
+RSM,Consulting,https://www.rsmus.com,Success
+Schellenberg Wittmer,Law,https://www.swlegal.com,Blocked/Error
+Simon-Kucher,Consulting,https://www.simon-kucher.com,Success
+Skadden,Law,https://www.skadden.com,Blocked/Error
+Slalom,Consulting,https://www.slalom.com,Success
+Strategy&,Consulting,https://www.strategyand.pwc.com,Success
+Walder Wyss,Law,https://www.walderwyss.com,Success
+White & Case,Law,https://www.whitecase.com,Blocked/Error
+Willis Towers Watson,Consulting,https://www.wtwco.com,Success
+ZS Associates,Consulting,https://www.zs.com,Blocked/Error

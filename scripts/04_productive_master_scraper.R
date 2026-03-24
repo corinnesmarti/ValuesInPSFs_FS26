@@ -57,3 +57,45 @@ for (i in 1:60) {
 }
 
 print("All 60 firms processed! Check main 'data_raw' folder.")
+
+# Count how many files we successfully created
+files_collected <- list.files("data_raw", pattern = "*.csv")
+num_firms <- length(files_collected)
+
+# Show the result
+message(paste("Result: We successfully collected data from", num_firms, "firms!"))
+
+# Quick look at which ones we got (the first 10)
+print(head(files_collected, 10))
+
+# =========================================================================
+# 5. Generate scraping report
+# =========================================================================
+
+# 1. Identify successfully created files
+# We look into the data_raw folder for all CSVs
+successful_files <- list.files("data_raw", pattern = "\\.csv$")
+
+# 2. Clean the filenames (remove .csv extension) to match the seed list
+successful_names <- str_remove(successful_files, "\\.csv")
+
+# 3. Create the status report
+# We compare the original seeds with the files we actually have
+scraping_report <- seeds %>%
+  mutate(
+    # We must match the 'safe name' logic used during saving
+    safe_name = str_replace_all(company, "[^[:alnum:]]", "_"),
+    status = if_else(safe_name %in% successful_names, "Success", "Blocked/Error")
+  ) %>%
+  select(-safe_name) # Remove the helper column
+
+# 4. Save the report to the root directory
+write_csv(scraping_report, "scraping_report.csv")
+
+# 5. Display a final summary in the console
+message("--------------------------------------------------")
+message(paste("TOTAL FIRMS TARGETED:", nrow(seeds)))
+message(paste("SUCCESSFUL SCRAPES  :", sum(scraping_report$status == "Success")))
+message(paste("FAILED/BLOCKED      :", sum(scraping_report$status == "Blocked/Error")))
+message("Report saved as 'scraping_report.csv'.")
+message("--------------------------------------------------")
