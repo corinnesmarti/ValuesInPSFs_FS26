@@ -29,3 +29,17 @@ message("--------------------------------------------------")
 
 # Take a look at the first few rows
 head(master_data)
+
+# Load the merged data
+master_data <- read_csv("data_processed/merged_firms_raw.csv")
+
+# Create a ranking: Which firms have the most paragraphs?
+firm_ranking <- master_data %>%
+  count(company, sort = TRUE)
+
+# Show the top 10
+print("Top 10 firms by amount of text (paragraphs):")
+print(head(firm_ranking, 10))
+
+# Save this ranking for your notes
+write_csv(firm_ranking, "data_processed/firm_text_volume_ranking.csv")
