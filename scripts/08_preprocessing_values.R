@@ -39,3 +39,34 @@ data_values_only %>%
   filter(!str_detect(word, "[0-9]")) %>%
   count(word, sort = TRUE) %>%
   head(10)
+
+# =========================================================================
+# 3. DEFINE REFINED VALUE DICTIONARY
+# =========================================================================
+
+# We combine normative values (ethics) and instrumental values (client-success)
+# based on PSF literature (Maister, Greenwood)
+
+value_keywords <- paste0(
+  "value|believe|belief|integrity|ethics|excellence|trust|responsibility|",
+  "mission|vision|culture|commitment|stewardship|diversity|inclusion|",
+  "purpose|sustainable|sustainability|responsible|pro bono|community|",
+  "partnership|collaboration|thrive|empower|dedication|standards"
+)
+
+# 4. Filter and Create Preprocessed Dataset
+data_values_preprocessed <- data_clean %>%
+  # Filter for paragraphs containing any of these keywords
+  filter(str_detect(content, regex(value_keywords, ignore_case = TRUE))) %>%
+  # Add a helper column to see which keyword was found (useful for later)
+  mutate(has_normative_core = str_detect(content, regex("integrity|ethics|trust|responsibility|purpose|stewardship", ignore_case = TRUE)))
+
+# 5. Save to the PREPROCESSED folder
+write_csv(data_values_preprocessed, "data_preprocessed/firms_values_preprocessed_v2.csv")
+
+# 6. Final Summary
+message("--------------------------------------------------")
+message(paste("ROWS IN CLEANED DATA        :", nrow(data_clean)))
+message(paste("ROWS IN NEW PREPROCESSED    :", nrow(data_values_preprocessed)))
+message("File: data_preprocessed/firms_values_preprocessed_v2.csv")
+message("--------------------------------------------------")
