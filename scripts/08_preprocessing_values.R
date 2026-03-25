@@ -70,3 +70,18 @@ message(paste("ROWS IN CLEANED DATA        :", nrow(data_clean)))
 message(paste("ROWS IN NEW PREPROCESSED    :", nrow(data_values_preprocessed)))
 message("File: data_preprocessed/firms_values_preprocessed_v2.csv")
 message("--------------------------------------------------")
+
+# Quick check of the 143 Value-Paragraphs
+library(tidytext)
+
+# Read the refined preprocessed data
+v2_data <- read_csv("data_processed/merged_firms_cleaned.csv") %>%
+  filter(str_detect(content, regex("value|believe|belief|integrity|ethics|excellence|trust|responsibility|mission|vision|culture|commitment|stewardship|diversity|inclusion|purpose|sustainable|sustainability|responsible|pro bono|community|partnership|collaboration|thrive|empower|dedication|standards", ignore_case = TRUE)))
+
+# Count the words in these specific 143 rows
+v2_data %>%
+  unnest_tokens(word, content) %>%
+  anti_join(stop_words) %>%
+  filter(!str_detect(word, "[0-9]")) %>%
+  count(word, sort = TRUE) %>%
+  head(15)
