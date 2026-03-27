@@ -1,0 +1,164 @@
+---
+title: "Analyzing Value Narratives in Professional Service Firms"
+subtitle: "Capstone Project | Data Mining and LLMs for Political and Social Sciences (FS 2026)"
+author: "Corinne Sybille Marti"
+date: "`r Sys.Date()`"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: true
+    theme: cosmo
+execute:
+  echo: true
+  warning: false
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(knitr)
+library(tidytext)
+library(ggplot2)
+
+matrix_data <- read_csv("data_processed/firm_value_matrix.csv")
+topic_essence <- read_csv("data_processed/lda_topic_summary.csv")
+```
+---
+
+# Introduction: The Intangible Product of PSFs
+
+Professional Service Firms (PSFs), such as management consultancies and law firms, operate in an environment characterized by high knowledge intensity and intangible services (von Nordenflycht 2010). Their main \"product\" is specialized expertise rather than a tangible good, which creates a fundamental problem of information asymmetry: clients often cannot fully assess the quality of the service, even after it has been delivered. As a result, reputation, trust and public image become key success factors (Alvesson 2001). To address this, PSFs rely heavily on symbolic signaling. Explicitly formulated organizational values and identity narratives (often framed as \"purpose\") play an important role in how these firms present themselves to the outside world. In the digital age, corporate websites have become the primary stage for this kind of identity work. Sections like \"About Us\" or \"Core Values\" are not just informational, but carefully crafted narratives aimed at building legitimacy and credibility.
+
+Against this background, this project asks: *How do professional service firms (consulting vs. law) communicate organizational values on their websites and which value narratives appear most frequently across different firms?* While firms aim to present themselves as distinctive, it remains unclear to what extent these narratives actually differ or whether they follow broader, field-level patterns of similarity. To address this question, the project uses automated data mining techniques to analyze the language of these online self-presentations. By doing so, it explores whether PSFs truly differentiate themselves or whether they tend to reproduce similar rhetorical patterns, pointing to possible isomorphic dynamics within the field.
+
+# Theoretical Framework: Neo-Institutionalism, Isomorphism and Decoupling
+
+To understand how Professional Service Firms (PSFs) communicate their values, it is necessary to look beyond simple marketing strategies. Sociological neo-institutionalism provides a useful theoretical framework: Its core assumption is that organizations do not adopt structures and narratives purely for efficiency, but primarily to signal legitimacy within their institutional environment (Meyer/Rowan 1977). This process often results in "rationalized myths": narratives that sound logical and modern but may not describe the actual technical core of the firm. By adopting terms like "sustainability", "innovation" or "integrity" firms align themselves with the prevailing societal expectations of what a good corporation looks like. A key concept in this context is *isomorphism*, which describes how organizations within the same field become increasingly similar over time (DiMaggio/Powell 1983). In PSFs, this is especially visible as *normative isomorphism*, driven by shared professional standards and similar educational backgrounds. Consultants and lawyers are often trained in comparable elite environments and circulate within the same professional networks. As a result, firms tend to use a standardized language of \"excellence,\" \"integrity,\" or \"impact\" to signal credibility. From this perspective, we would expect a high degree of similarity in how PSFs communicate their values, even though they operate in a competitive market that encourages differentiation.
+
+At the same time, neo-institutionalism highlights the concept of *decoupling*. Organizations often separate their formal, outward-facing narratives from their internal practices (Meyer/Rowan 1977). This allows them to meet external expectations without necessarily changing their core operations. For example, a law firm may emphasize innovation and agility on its website, while internally maintaining a traditional and hierarchical structure. The values communicated online can therefore be understood less as a direct reflection of internal reality and more as a strategic legitimacy facade. For PSFs, this facade is particularly important. Because their \"product\" is closely tied to the knowledge and behavior of their employees, value narratives serve a dual function: they signal trust and professionalism to clients and help attract and shape highly qualified knowledge workers (Alvesson/Robertson 2006). From a neo-institutional perspective, we would therefore expect PSFs to draw on a shared pool of legitimacy concepts. However, it remains an open question whether consulting firms and law firms rely on the same narratives or whether distinct sub-field logics still lead to observable differences.
+
+# Methodology: Building a Robust Data Pipeline
+
+To answer the research question, a multi-stage data mining pipeline was developed in R, with a strong focus on reproducibility, transparency and ethical data collection.
+
+## **Data Collection (Scraping)**
+
+A seed list of 60 elite PSFs (consulting and law firms) was compiled. The scraping process used the *rvest* and *polite* packages. The *polite* package ensured ethical crawling by respecting robots.txt files and implementing appropriate waiting times between requests, so that the data collection did not disrupt host servers. To identify relevant content, a regex-based heuristic was developed. The crawler scanned internal links for keywords such as \"values,\" \"purpose,\" \"about,\" and \"culture,\" allowing it to focus specifically on identity-related pages while ignoring irrelevant sections like contact pages or service descriptions. In total, 39 out of 60 firms (65%) were successfully scraped; failures were mainly due to bot protection (e.g. 403 errors) or technical issues such as outdated SSL certificates.
+
+## **Preprocessing and Filtering**
+
+The raw HTML data was then cleaned to remove \"web noise\", including navigation elements, scripts and formatting artifacts. This step was essential to transform the website data into a clean sociological corpus. Without this filter, common terms like "Cookie Policy" or "Login" would have distorted the frequency analysis of organizational values. A combined stopword filter (German and English) was applied to the tokenized corpus. This bilingual approach was essential because the seed list specifically included leading firms from the DACH region (Switzerland, Germany, Austria) alongside global players. Handling the linguistic nuances of Swiss legal terminology vs. global consulting English was a key technical challenge of the pipeline. To isolate meaningful identity text, a dictionary-based filtering approach was applied: only paragraphs containing normative core terms (e.g.: trust, innovation, responsibility) were retained. This resulted in a refined corpus of 143 high-relevance paragraphs. The cleaned data was then tokenized, meaning that the text was broken down into individual words to enable quantitative analysis.
+
+# **Analysis and Results**
+
+## **Quantitative Scoring: Institutional Logics**
+
+To analyze patterns in value communication, the text data was mapped onto three institutional logics:
+
+**- Professional Logic** (e.g., ethics, trust, tradition)
+- **Commercial Logic** (e.g., growth, market, performance)
+- **Innovation Logic** (e.g., digitalization, AI, transformation)
+
+```` R
+```{r}
+#| label: tbl-logic
+#| tbl-cap: "Table 1: Mean Value Scores by Industry"
+
+industry_comparison <- matrix_data %>% 
+  group_by(industry) %>% 
+  summarise(
+    Professional = round(mean(professional_logic), 2), 
+    Commercial = round(mean(commercial_logic), 2), 
+    Innovation = round(mean(innovation_logic), 2)
+    ) 
+
+kable(industry_comparison)
+```
+````
+
+The results reveal a clear divide between industries. Law firms score higher on Professional Logic (2.92 vs. 1.74), emphasizing trust, ethics and legal standards. In contrast, consulting firms score significantly higher on Commercial (6.79) and Innovation Logics (4.00), highlighting growth, disruption and future-oriented capabilities. This suggests that legitimacy in consulting is increasingly tied to innovation and market impact, rather than traditional professional authority.
+
+This findings suggest a *modernization gap* in professional services. While Law firms continue to draw legitimacy from their historical status as guardians of the law, Consulting firms have successfully rebranded themselves as architects of the digital age. The low innovation score of Law firms (1.00) is particularly telling, suggesting that "Disruption" is still perceived as a risk rather than an asset in the legal field.
+
+```` R
+```{r}
+#| label: fig-logic
+
+#| fig-cap: "Figure 1: Comparison of Organizational Identity Logics"
+
+#| echo: false
+
+#| out-width: "100%"
+
+knitr::include_graphics("data_processed/industry_logic_comparison.png")
+```
+````
+
+As Figure 1 illustrates, the "Commercial Logic" has become the dominant narrative for Consultancies, nearly tripling the score of Law firms in this category. This points to a "Marketization" of the consulting identity, where client value and growth have overtaken the traditional professional ethos.
+
+## **Topic Modeling: Latent Narratives (LDA)**
+
+To go beyond predefined categories, a Latent Dirichlet Allocation (LDA) model with k=3 was applied to identify underlying themes in the data.
+
+```` R
+```{r}
+#| label: tbl-topics
+
+#| tbl-cap: "Table 2: Top 10 Terms per Latent Topic"
+
+kable(topic_essence)
+```
+````
+
+Three main narrative clusters emerged:
+
+\- **Topic 1:** *Digital Stewardship* is dominated by consulting firms, combining themes such as AI, sustainability and future-oriented transformation. This points to a new form of isomorphism, where firms position themselves as \"future-proofing\" partners.
+- **Topic 2:** *Legal Heritage* is characteristic of law firms, emphasizing partnership structures, tradition and international legal standards.
+- **Topic 3:** *Strategic Growth* -- A hybrid narrative shared across both industries, focusing on global reach, performance and employee development.
+
+Overall, the findings highlight both similarity and difference: while PSFs draw on a shared pool of legitimacy concepts, they also reflect distinct sub-field logics. The analysis of website narratives thus provides insight into how legitimacy is constructed and communicated in knowledge-intensive industries.
+
+# **Critical Reflection and Limitations**
+
+While the data pipeline produced meaningful insights, several limitations should be considered. First, the overall scraping success rate of 65% introduces a potential selection bias. Out of 60 firms, 21 could not be accessed due to bot protection or technical barriers such as SSL issues. This is not only a technical limitation but also a sociological observation: larger and more prestigious firms, especially in consulting, often employ advanced security systems to protect their digital presence. As a result, the sample may be skewed toward firms with more accessible (or less protected) websites. Second, the process of automated data extraction itself is not neutral. The use of a regex-based heuristic to identify relevant pages means that firms using non-standard terminology for their values may have been excluded or underrepresented. This highlights the \"algorithmic power\" of the researcher: the code defines which parts of organizational reality become visible and which remain hidden. Third, the analysis relies on a predefined dictionary of terms to classify value narratives. While grounded in existing literature, such dictionaries are inherently static and may not fully capture the evolving language of organizations. For example, a term like \"agility\" may signal different meanings depending on context. Future research could address this limitation by using more flexible approaches, such as LLM-based classification or context-sensitive analysis.
+
+From a theoretical perspective, the concept of decoupling must also be taken seriously. This study focuses on how firms communicate their values, not on how these values are actually practiced internally. The narratives observed on corporate websites should therefore be understood as expressions of legitimacy rather than direct reflections of organizational reality. A promising extension would be to combine this data with employee-generated sources, such as Glassdoor reviews, to analyze the gap between \"website values\" and lived experience.
+
+Finally, the scope of the study is limited in terms of sample size and geographic coverage. The final dataset of 39 firms is sufficient for an exploratory project but does not allow for strong generalizations. While the inclusion of DACH-region firms increases the local relevance of the study, it also introduces a linguistic isomorphism bias. Future research should investigate if the observed patterns hold true across non-elite, local firms that do not primarily communicate in global English. Another limitation concerns the static nature of the data. Corporate websites are dynamic and continuously evolving, yet the scraper captures only a single snapshot in time. A longitudinal design, collecting data at regular intervals, could provide insights into how value narratives shift in response to broader developments such as ESG trends or advances in artificial intelligence. And lastly, the analysis is limited to English-language content. While many PSFs use a standardized \"global English,\" this may mask important linguistic and cultural nuances. A multilingual approach would be necessary to fully understand how values are communicated across different institutional and cultural contexts.
+
+# **Conclusion: The Evolution of the Legitimacy Facade**
+
+This project shows that Professional Service Firms (PSFs) do not follow a single, uniform pattern of value communication. While neo-institutional theory would suggest a high degree of similarity across organizations operating in the same field, the findings instead reveal a clear bifurcation into two distinct \"legitimacy clusters.\"
+
+On the one hand, law firms position themselves as the *keepers of the professional ethos.* Their narratives are strongly anchored in a Professional Logic, emphasizing stability, trust, ethics and tradition. They present themselves as reliable partners in uncertain environments, drawing legitimacy from continuity and adherence to established standards. On the other hand, consulting firms act as *drivers of commercial change.* Their communication is shaped by an Innovation and Commercial Logic, highlighting transformation, digitalization and growth. Here, legitimacy is no longer rooted in tradition, but in the ability to anticipate and shape the future. Importantly, both industries still draw on a shared vocabulary. Terms such as \"excellence\", \"impact\" or \"responsibility\" appear across the board. However, the meaning and strategic use of these terms differ significantly depending on the institutional context. This suggests that normative isomorphism operates strongly within industries, where firms align with their closest peers, but less so across the broader PSF field. In other words, similarity exists but it is clustered, not universal.
+
+From a neo-institutional perspective, these findings reinforce the idea that organizational communication is not primarily about accurately reflecting internal reality, but about meeting external expectations. The value narratives presented on corporate websites can therefore be understood as *rationalized myths*(Meyer/Rowan 1977); symbolic constructions that signal legitimacy. They function as strategic facades, bridging the gap between the firm\'s technical core and the demands of its institutional environment. These facades serve multiple purposes at once. They reassure clients, differentiate firms in competitive markets and help attract and shape highly skilled knowledge workers by offering a coherent sense of identity and purpose. In this sense, identity work becomes a central organizational task, especially in knowledge-intensive industries where the product is closely tied to people and expertise.
+
+By applying data mining techniques to these narratives, this project makes it possible to systematically analyze what is usually difficult to observe: the large-scale patterns of organizational self-presentation. In doing so, it reveals what could be described as an \"invisible hand\" of organizational identity work: a set of shared but often implicit rules that shape how firms present themselves as legitimate, modern, and \"excellent\" actors in the contemporary knowledge economy.
+
+# **LLM Disclosure and Reflection Note**
+
+In accordance with the University of Lucerne guidelines, I disclose the use of *Gemini 3 Flash (Google)* as an AI assistant in this project.
+
+-   The LLM was primarily used as a supportive tool throughout different stages of the research process. First, it assisted in **code generation**, including the initial development of regex-based heuristics for subpage discovery and parts of the LDA topic modeling pipeline. It also contributed to structuring the data pipeline within a Quarto (.qmd) environment, where text and code are integrated into a single reproducible document.
+
+-   The LLM was used for **debugging and technical support**, helping to resolve issues such as list-nesting errors during scraping and package dependency problems (e.g. *reshape2*). This enabled a smoother implementation of the data collection and analysis workflow.
+
+-   The LLM supported **linguistic refinement and structuring**. Conceptual drafts were translated and developed into academic English and it helped organize the report into a coherent and well-structured document. In this sense, the LLM functioned as a collaborative assistant particularly useful for drafting and refining text.
+
+-   At the same time, the use of the LLM highlights important methodological considerations. The interaction required active guidance through different types of prompts, including conceptual prompts (e.g.: expanding theoretical concepts), technical prompts (e.g.: fixing code errors) and structural prompts (e.g.: outlining the report). This reflects the role of the researcher in directing and critically evaluating AI-generated outputs. All outputs were **manually verified**. The R scripts were executed locally and all statistical results were checked against the raw CSV data. The interpretation of results, theoretical framing and final analytical decisions remain entirely the responsibility of the author.
+
+Overall, the use of an LLM enabled a more ambitious project scope, particularly in terms of automated scraping and topic modeling than would have been feasible. However, the author remained the principal investigator, retaining full control over the research design, methodological choices, and sociological interpretation.
+
+# References
+
+Alvesson, M. (2001). Knowledge work: Ambiguity, image and identity. *Human Relations*, 54(7), 863--886.
+
+Alvesson, M., & Robertson, M. (2006). The Best and the Brightest: The Construction of Elite Identities in Professional Service Firms. *Organization*, 13(2), 195--224.
+
+DiMaggio, P. J., & Powell, W. W. (1983). The iron cage revisited: Institutional isomorphism and collective rationality in organizational fields. *American Sociological Review*, 48(2), 147--160.
+
+Meyer, J. W., & Rowan, B. (1977). Institutionalized organizations: Formal structure as myth and ceremony. *American Journal of Sociology*, 83(2), 340--363.
+
+Von Nordenflycht, A. (2010). What is a professional service firm? Toward a theory and taxonomy of knowledge-intensive firms. *Academy of Management Review*, 35(1), 155--174.

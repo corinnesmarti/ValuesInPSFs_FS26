@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Corinne Sybille Marti">
+<meta name="dcterms.date" content="2026-03-27">
+
+<title>Analyzing Value Narratives in Professional Service Firms</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="report_files/libs/clipboard/clipboard.min.js"></script>
+<script src="report_files/libs/quarto-html/quarto.js"></script>
+<script src="report_files/libs/quarto-html/popper.min.js"></script>
+<script src="report_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="report_files/libs/quarto-html/anchor.min.js"></script>
+<link href="report_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="report_files/libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="report_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="report_files/libs/bootstrap/bootstrap-81e35ebdb4125010edbabe6010586085.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction-the-intangible-product-of-psfs" id="toc-introduction-the-intangible-product-of-psfs" class="nav-link active" data-scroll-target="#introduction-the-intangible-product-of-psfs"><span class="header-section-number">1</span> Introduction: The Intangible Product of PSFs</a></li>
+  <li><a href="#theoretical-framework-neo-institutionalism-isomorphism-and-decoupling" id="toc-theoretical-framework-neo-institutionalism-isomorphism-and-decoupling" class="nav-link" data-scroll-target="#theoretical-framework-neo-institutionalism-isomorphism-and-decoupling"><span class="header-section-number">2</span> Theoretical Framework: Neo-Institutionalism, Isomorphism and Decoupling</a></li>
+  <li><a href="#methodology-building-a-robust-data-pipeline" id="toc-methodology-building-a-robust-data-pipeline" class="nav-link" data-scroll-target="#methodology-building-a-robust-data-pipeline"><span class="header-section-number">3</span> Methodology: Building a Robust Data Pipeline</a>
+  <ul class="collapse">
+  <li><a href="#data-collection-scraping" id="toc-data-collection-scraping" class="nav-link" data-scroll-target="#data-collection-scraping"><span class="header-section-number">3.1</span> <strong>Data Collection (Scraping)</strong></a></li>
+  <li><a href="#preprocessing-and-filtering" id="toc-preprocessing-and-filtering" class="nav-link" data-scroll-target="#preprocessing-and-filtering"><span class="header-section-number">3.2</span> <strong>Preprocessing and Filtering</strong></a></li>
+  </ul></li>
+  <li><a href="#analysis-and-results" id="toc-analysis-and-results" class="nav-link" data-scroll-target="#analysis-and-results"><span class="header-section-number">4</span> <strong>Analysis and Results</strong></a>
+  <ul class="collapse">
+  <li><a href="#quantitative-scoring-institutional-logics" id="toc-quantitative-scoring-institutional-logics" class="nav-link" data-scroll-target="#quantitative-scoring-institutional-logics"><span class="header-section-number">4.1</span> <strong>Quantitative Scoring: Institutional Logics</strong></a></li>
+  <li><a href="#topic-modeling-latent-narratives-lda" id="toc-topic-modeling-latent-narratives-lda" class="nav-link" data-scroll-target="#topic-modeling-latent-narratives-lda"><span class="header-section-number">4.2</span> <strong>Topic Modeling: Latent Narratives (LDA)</strong></a></li>
+  </ul></li>
+  <li><a href="#critical-reflection-and-limitations" id="toc-critical-reflection-and-limitations" class="nav-link" data-scroll-target="#critical-reflection-and-limitations"><span class="header-section-number">5</span> <strong>Critical Reflection and Limitations</strong></a></li>
+  <li><a href="#conclusion-the-evolution-of-the-legitimacy-facade" id="toc-conclusion-the-evolution-of-the-legitimacy-facade" class="nav-link" data-scroll-target="#conclusion-the-evolution-of-the-legitimacy-facade"><span class="header-section-number">6</span> <strong>Conclusion: The Evolution of the Legitimacy Facade</strong></a></li>
+  <li><a href="#llm-disclosure-and-reflection-note" id="toc-llm-disclosure-and-reflection-note" class="nav-link" data-scroll-target="#llm-disclosure-and-reflection-note"><span class="header-section-number">7</span> <strong>LLM Disclosure and Reflection Note</strong></a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">8</span> References</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Analyzing Value Narratives in Professional Service Firms</h1>
+<p class="subtitle lead">Capstone Project | Data Mining and LLMs for Political and Social Sciences (FS 2026)</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Corinne Sybille Marti </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 27, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<hr>
+<section id="introduction-the-intangible-product-of-psfs" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction: The Intangible Product of PSFs</h1>
+<p>Professional Service Firms (PSFs), such as management consultancies and law firms, operate in an environment characterized by high knowledge intensity and intangible services (von Nordenflycht 2010). Their main "product" is specialized expertise rather than a tangible good, which creates a fundamental problem of information asymmetry: clients often cannot fully assess the quality of the service, even after it has been delivered. As a result, reputation, trust and public image become key success factors (Alvesson 2001). To address this, PSFs rely heavily on symbolic signaling. Explicitly formulated organizational values and identity narratives (often framed as "purpose") play an important role in how these firms present themselves to the outside world. In the digital age, corporate websites have become the primary stage for this kind of identity work. Sections like "About Us" or "Core Values" are not just informational, but carefully crafted narratives aimed at building legitimacy and credibility.</p>
+<p>Against this background, this project asks: <em>How do professional service firms (consulting vs.&nbsp;law) communicate organizational values on their websites and which value narratives appear most frequently across different firms?</em> While firms aim to present themselves as distinctive, it remains unclear to what extent these narratives actually differ or whether they follow broader, field-level patterns of similarity. To address this question, the project uses automated data mining techniques to analyze the language of these online self-presentations. By doing so, it explores whether PSFs truly differentiate themselves or whether they tend to reproduce similar rhetorical patterns, pointing to possible isomorphic dynamics within the field.</p>
+</section>
+<section id="theoretical-framework-neo-institutionalism-isomorphism-and-decoupling" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Theoretical Framework: Neo-Institutionalism, Isomorphism and Decoupling</h1>
+<p>To understand how Professional Service Firms (PSFs) communicate their values, it is necessary to look beyond simple marketing strategies. Sociological neo-institutionalism provides a useful theoretical framework: Its core assumption is that organizations do not adopt structures and narratives purely for efficiency, but primarily to signal legitimacy within their institutional environment (Meyer/Rowan 1977). This process often results in “rationalized myths”: narratives that sound logical and modern but may not describe the actual technical core of the firm. By adopting terms like “sustainability”, “innovation” or “integrity” firms align themselves with the prevailing societal expectations of what a good corporation looks like. A key concept in this context is <em>isomorphism</em>, which describes how organizations within the same field become increasingly similar over time (DiMaggio/Powell 1983). In PSFs, this is especially visible as <em>normative isomorphism</em>, driven by shared professional standards and similar educational backgrounds. Consultants and lawyers are often trained in comparable elite environments and circulate within the same professional networks. As a result, firms tend to use a standardized language of "excellence," "integrity," or "impact" to signal credibility. From this perspective, we would expect a high degree of similarity in how PSFs communicate their values, even though they operate in a competitive market that encourages differentiation.</p>
+<p>At the same time, neo-institutionalism highlights the concept of <em>decoupling</em>. Organizations often separate their formal, outward-facing narratives from their internal practices (Meyer/Rowan 1977). This allows them to meet external expectations without necessarily changing their core operations. For example, a law firm may emphasize innovation and agility on its website, while internally maintaining a traditional and hierarchical structure. The values communicated online can therefore be understood less as a direct reflection of internal reality and more as a strategic legitimacy facade. For PSFs, this facade is particularly important. Because their "product" is closely tied to the knowledge and behavior of their employees, value narratives serve a dual function: they signal trust and professionalism to clients and help attract and shape highly qualified knowledge workers (Alvesson/Robertson 2006). From a neo-institutional perspective, we would therefore expect PSFs to draw on a shared pool of legitimacy concepts. However, it remains an open question whether consulting firms and law firms rely on the same narratives or whether distinct sub-field logics still lead to observable differences.</p>
+</section>
+<section id="methodology-building-a-robust-data-pipeline" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Methodology: Building a Robust Data Pipeline</h1>
+<p>To answer the research question, a multi-stage data mining pipeline was developed in R, with a strong focus on reproducibility, transparency and ethical data collection.</p>
+<section id="data-collection-scraping" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="data-collection-scraping"><span class="header-section-number">3.1</span> <strong>Data Collection (Scraping)</strong></h2>
+<p>A seed list of 60 elite PSFs (consulting and law firms) was compiled. The scraping process used the <em>rvest</em> and <em>polite</em> packages. The <em>polite</em> package ensured ethical crawling by respecting robots.txt files and implementing appropriate waiting times between requests, so that the data collection did not disrupt host servers. To identify relevant content, a regex-based heuristic was developed. The crawler scanned internal links for keywords such as "values," "purpose," "about," and "culture," allowing it to focus specifically on identity-related pages while ignoring irrelevant sections like contact pages or service descriptions. In total, 39 out of 60 firms (65%) were successfully scraped; failures were mainly due to bot protection (e.g.&nbsp;403 errors) or technical issues such as outdated SSL certificates.</p>
+</section>
+<section id="preprocessing-and-filtering" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="preprocessing-and-filtering"><span class="header-section-number">3.2</span> <strong>Preprocessing and Filtering</strong></h2>
+<p>The raw HTML data was then cleaned to remove "web noise", including navigation elements, scripts and formatting artifacts. This step was essential to transform the website data into a clean sociological corpus. Without this filter, common terms like “Cookie Policy” or “Login” would have distorted the frequency analysis of organizational values. A combined stopword filter (German and English) was applied to the tokenized corpus. This bilingual approach was essential because the seed list specifically included leading firms from the DACH region (Switzerland, Germany, Austria) alongside global players. Handling the linguistic nuances of Swiss legal terminology vs.&nbsp;global consulting English was a key technical challenge of the pipeline. To isolate meaningful identity text, a dictionary-based filtering approach was applied: only paragraphs containing normative core terms (e.g.: trust, innovation, responsibility) were retained. This resulted in a refined corpus of 143 high-relevance paragraphs. The cleaned data was then tokenized, meaning that the text was broken down into individual words to enable quantitative analysis.</p>
+</section>
+</section>
+<section id="analysis-and-results" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> <strong>Analysis and Results</strong></h1>
+<section id="quantitative-scoring-institutional-logics" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="quantitative-scoring-institutional-logics"><span class="header-section-number">4.1</span> <strong>Quantitative Scoring: Institutional Logics</strong></h2>
+<p>To analyze patterns in value communication, the text data was mapped onto three institutional logics:</p>
+<p><strong>- Professional Logic</strong> (e.g., ethics, trust, tradition) - <strong>Commercial Logic</strong> (e.g., growth, market, performance) - <strong>Innovation Logic</strong> (e.g., digitalization, AI, transformation)</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span> {<span class="co">#tbl-logic .cell tbl-cap='Table 1: Mean Value Scores by Industry'}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="st">```</span><span class="at">{.r .cell-code}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="at">industry_comparison &lt;- matrix_data %&gt;% </span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="at">  group_by(industry) %&gt;% </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="at">  summarise(</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="at">    Professional = round(mean(professional_logic), 2), </span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="at">    Commercial = round(mean(commercial_logic), 2), </span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="at">    Innovation = round(mean(innovation_logic), 2)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="at">    ) </span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="at">kable(industry_comparison)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span> {.cell<span class="sc">-</span>output<span class="sc">-</span>display}</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="sc">|</span>industry   <span class="sc">|</span> Professional<span class="sc">|</span> Commercial<span class="sc">|</span> Innovation<span class="sc">|</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="er">|:</span><span class="sc">----------</span><span class="er">|</span><span class="sc">------------</span><span class="er">:|</span><span class="sc">----------</span><span class="er">:|</span><span class="sc">----------</span><span class="er">:|</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>Consulting <span class="sc">|</span>         <span class="fl">1.74</span><span class="sc">|</span>       <span class="fl">6.79</span><span class="sc">|</span>          <span class="dv">4</span><span class="sc">|</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>Law        <span class="sc">|</span>         <span class="fl">2.92</span><span class="sc">|</span>       <span class="fl">1.67</span><span class="sc">|</span>          <span class="dv">1</span><span class="sc">|</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="er">:::</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="er">:::</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The results reveal a clear divide between industries. Law firms score higher on Professional Logic (2.92 vs.&nbsp;1.74), emphasizing trust, ethics and legal standards. In contrast, consulting firms score significantly higher on Commercial (6.79) and Innovation Logics (4.00), highlighting growth, disruption and future-oriented capabilities. This suggests that legitimacy in consulting is increasingly tied to innovation and market impact, rather than traditional professional authority.</p>
+<p>This findings suggest a <em>modernization gap</em> in professional services. While Law firms continue to draw legitimacy from their historical status as guardians of the law, Consulting firms have successfully rebranded themselves as architects of the digital age. The low innovation score of Law firms (1.00) is particularly telling, suggesting that “Disruption” is still perceived as a risk rather than an asset in the legal field.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span> {.cell}</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="st">```</span><span class="at">{.r .cell-code}</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="at">#| fig-cap: "Figure 1: Comparison of Organizational Identity Logics"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="at">#| echo: false</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="at">#| out-width: "100%"</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="at">knitr::include_graphics("data_processed/industry_logic_comparison.png")</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span> {.cell<span class="sc">-</span>output<span class="sc">-</span>display}</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="sc">!</span>[](data_processed<span class="sc">/</span>industry_logic_comparison.png){<span class="co">#fig-logic}</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="er">:::</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As Figure 1 illustrates, the “Commercial Logic” has become the dominant narrative for Consultancies, nearly tripling the score of Law firms in this category. This points to a “Marketization” of the consulting identity, where client value and growth have overtaken the traditional professional ethos.</p>
+</section>
+<section id="topic-modeling-latent-narratives-lda" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="topic-modeling-latent-narratives-lda"><span class="header-section-number">4.2</span> <strong>Topic Modeling: Latent Narratives (LDA)</strong></h2>
+<p>To go beyond predefined categories, a Latent Dirichlet Allocation (LDA) model with k=3 was applied to identify underlying themes in the data.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span> {<span class="co">#tbl-topics .cell}</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">```</span><span class="at">{.r .cell-code}</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="at">#| tbl-cap: "Table 2: Top 10 Terms per Latent Topic"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="at">kable(topic_essence)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span> {.cell<span class="sc">-</span>output<span class="sc">-</span>display}</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="sc">|</span> topic<span class="sc">|</span>term           <span class="sc">|</span>      beta<span class="sc">|</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="er">|</span><span class="sc">-----</span><span class="er">:|:</span><span class="sc">--------------</span><span class="er">|</span><span class="sc">---------</span><span class="er">:|</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">1</span><span class="sc">|</span>sustainability <span class="sc">|</span> <span class="fl">0.0222032</span><span class="sc">|</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">1</span><span class="sc">|</span>global         <span class="sc">|</span> <span class="fl">0.0121783</span><span class="sc">|</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">1</span><span class="sc">|</span>growth         <span class="sc">|</span> <span class="fl">0.0118418</span><span class="sc">|</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">1</span><span class="sc">|</span>ai             <span class="sc">|</span> <span class="fl">0.0110041</span><span class="sc">|</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">1</span><span class="sc">|</span>expertise      <span class="sc">|</span> <span class="fl">0.0103616</span><span class="sc">|</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">1</span><span class="sc">|</span>innovation     <span class="sc">|</span> <span class="fl">0.0088813</span><span class="sc">|</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">1</span><span class="sc">|</span>data           <span class="sc">|</span> <span class="fl">0.0088813</span><span class="sc">|</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">1</span><span class="sc">|</span>term           <span class="sc">|</span> <span class="fl">0.0088813</span><span class="sc">|</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">1</span><span class="sc">|</span>power          <span class="sc">|</span> <span class="fl">0.0088809</span><span class="sc">|</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">1</span><span class="sc">|</span>people         <span class="sc">|</span> <span class="fl">0.0080706</span><span class="sc">|</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">2</span><span class="sc">|</span>legal          <span class="sc">|</span> <span class="fl">0.0227306</span><span class="sc">|</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">2</span><span class="sc">|</span>partnership    <span class="sc">|</span> <span class="fl">0.0164613</span><span class="sc">|</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">2</span><span class="sc">|</span>law            <span class="sc">|</span> <span class="fl">0.0164613</span><span class="sc">|</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">2</span><span class="sc">|</span>grant          <span class="sc">|</span> <span class="fl">0.0164613</span><span class="sc">|</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">2</span><span class="sc">|</span>thornton       <span class="sc">|</span> <span class="fl">0.0164613</span><span class="sc">|</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">2</span><span class="sc">|</span>brown          <span class="sc">|</span> <span class="fl">0.0164613</span><span class="sc">|</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">2</span><span class="sc">|</span>mayer          <span class="sc">|</span> <span class="fl">0.0164613</span><span class="sc">|</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">2</span><span class="sc">|</span>international  <span class="sc">|</span> <span class="fl">0.0144036</span><span class="sc">|</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">2</span><span class="sc">|</span>practices      <span class="sc">|</span> <span class="fl">0.0123459</span><span class="sc">|</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">2</span><span class="sc">|</span>rsm            <span class="sc">|</span> <span class="fl">0.0119532</span><span class="sc">|</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">3</span><span class="sc">|</span>sustainable    <span class="sc">|</span> <span class="fl">0.0160716</span><span class="sc">|</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">3</span><span class="sc">|</span>growth         <span class="sc">|</span> <span class="fl">0.0131495</span><span class="sc">|</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">3</span><span class="sc">|</span>opportunities  <span class="sc">|</span> <span class="fl">0.0131495</span><span class="sc">|</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">3</span><span class="sc">|</span>partnership    <span class="sc">|</span> <span class="fl">0.0116884</span><span class="sc">|</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">3</span><span class="sc">|</span>teams          <span class="sc">|</span> <span class="fl">0.0102274</span><span class="sc">|</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">3</span><span class="sc">|</span>burling        <span class="sc">|</span> <span class="fl">0.0087663</span><span class="sc">|</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">3</span><span class="sc">|</span>covington      <span class="sc">|</span> <span class="fl">0.0087663</span><span class="sc">|</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">3</span><span class="sc">|</span>build          <span class="sc">|</span> <span class="fl">0.0078596</span><span class="sc">|</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">3</span><span class="sc">|</span>world          <span class="sc">|</span> <span class="fl">0.0078289</span><span class="sc">|</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="er">|</span>     <span class="dv">3</span><span class="sc">|</span>strategic      <span class="sc">|</span> <span class="fl">0.0073053</span><span class="sc">|</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="er">:::</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="er">:::</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Three main narrative clusters emerged:</p>
+<p>- <strong>Topic 1:</strong> <em>Digital Stewardship</em> is dominated by consulting firms, combining themes such as AI, sustainability and future-oriented transformation. This points to a new form of isomorphism, where firms position themselves as "future-proofing" partners. - <strong>Topic 2:</strong> <em>Legal Heritage</em> is characteristic of law firms, emphasizing partnership structures, tradition and international legal standards. - <strong>Topic 3:</strong> <em>Strategic Growth</em> – A hybrid narrative shared across both industries, focusing on global reach, performance and employee development.</p>
+<p>Overall, the findings highlight both similarity and difference: while PSFs draw on a shared pool of legitimacy concepts, they also reflect distinct sub-field logics. The analysis of website narratives thus provides insight into how legitimacy is constructed and communicated in knowledge-intensive industries.</p>
+</section>
+</section>
+<section id="critical-reflection-and-limitations" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> <strong>Critical Reflection and Limitations</strong></h1>
+<p>While the data pipeline produced meaningful insights, several limitations should be considered. First, the overall scraping success rate of 65% introduces a potential selection bias. Out of 60 firms, 21 could not be accessed due to bot protection or technical barriers such as SSL issues. This is not only a technical limitation but also a sociological observation: larger and more prestigious firms, especially in consulting, often employ advanced security systems to protect their digital presence. As a result, the sample may be skewed toward firms with more accessible (or less protected) websites. Second, the process of automated data extraction itself is not neutral. The use of a regex-based heuristic to identify relevant pages means that firms using non-standard terminology for their values may have been excluded or underrepresented. This highlights the "algorithmic power" of the researcher: the code defines which parts of organizational reality become visible and which remain hidden. Third, the analysis relies on a predefined dictionary of terms to classify value narratives. While grounded in existing literature, such dictionaries are inherently static and may not fully capture the evolving language of organizations. For example, a term like "agility" may signal different meanings depending on context. Future research could address this limitation by using more flexible approaches, such as LLM-based classification or context-sensitive analysis.</p>
+<p>From a theoretical perspective, the concept of decoupling must also be taken seriously. This study focuses on how firms communicate their values, not on how these values are actually practiced internally. The narratives observed on corporate websites should therefore be understood as expressions of legitimacy rather than direct reflections of organizational reality. A promising extension would be to combine this data with employee-generated sources, such as Glassdoor reviews, to analyze the gap between "website values" and lived experience.</p>
+<p>Finally, the scope of the study is limited in terms of sample size and geographic coverage. The final dataset of 39 firms is sufficient for an exploratory project but does not allow for strong generalizations. While the inclusion of DACH-region firms increases the local relevance of the study, it also introduces a linguistic isomorphism bias. Future research should investigate if the observed patterns hold true across non-elite, local firms that do not primarily communicate in global English. Another limitation concerns the static nature of the data. Corporate websites are dynamic and continuously evolving, yet the scraper captures only a single snapshot in time. A longitudinal design, collecting data at regular intervals, could provide insights into how value narratives shift in response to broader developments such as ESG trends or advances in artificial intelligence. And lastly, the analysis is limited to English-language content. While many PSFs use a standardized "global English," this may mask important linguistic and cultural nuances. A multilingual approach would be necessary to fully understand how values are communicated across different institutional and cultural contexts.</p>
+</section>
+<section id="conclusion-the-evolution-of-the-legitimacy-facade" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> <strong>Conclusion: The Evolution of the Legitimacy Facade</strong></h1>
+<p>This project shows that Professional Service Firms (PSFs) do not follow a single, uniform pattern of value communication. While neo-institutional theory would suggest a high degree of similarity across organizations operating in the same field, the findings instead reveal a clear bifurcation into two distinct "legitimacy clusters."</p>
+<p>On the one hand, law firms position themselves as the <em>keepers of the professional ethos.</em> Their narratives are strongly anchored in a Professional Logic, emphasizing stability, trust, ethics and tradition. They present themselves as reliable partners in uncertain environments, drawing legitimacy from continuity and adherence to established standards. On the other hand, consulting firms act as <em>drivers of commercial change.</em> Their communication is shaped by an Innovation and Commercial Logic, highlighting transformation, digitalization and growth. Here, legitimacy is no longer rooted in tradition, but in the ability to anticipate and shape the future. Importantly, both industries still draw on a shared vocabulary. Terms such as "excellence", "impact" or "responsibility" appear across the board. However, the meaning and strategic use of these terms differ significantly depending on the institutional context. This suggests that normative isomorphism operates strongly within industries, where firms align with their closest peers, but less so across the broader PSF field. In other words, similarity exists but it is clustered, not universal.</p>
+<p>From a neo-institutional perspective, these findings reinforce the idea that organizational communication is not primarily about accurately reflecting internal reality, but about meeting external expectations. The value narratives presented on corporate websites can therefore be understood as <em>rationalized myths</em>(Meyer/Rowan 1977); symbolic constructions that signal legitimacy. They function as strategic facades, bridging the gap between the firm's technical core and the demands of its institutional environment. These facades serve multiple purposes at once. They reassure clients, differentiate firms in competitive markets and help attract and shape highly skilled knowledge workers by offering a coherent sense of identity and purpose. In this sense, identity work becomes a central organizational task, especially in knowledge-intensive industries where the product is closely tied to people and expertise.</p>
+<p>By applying data mining techniques to these narratives, this project makes it possible to systematically analyze what is usually difficult to observe: the large-scale patterns of organizational self-presentation. In doing so, it reveals what could be described as an "invisible hand" of organizational identity work: a set of shared but often implicit rules that shape how firms present themselves as legitimate, modern, and "excellent" actors in the contemporary knowledge economy.</p>
+</section>
+<section id="llm-disclosure-and-reflection-note" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> <strong>LLM Disclosure and Reflection Note</strong></h1>
+<p>In accordance with the University of Lucerne guidelines, I disclose the use of <em>Gemini 3 Flash (Google)</em> as an AI assistant in this project.</p>
+<ul>
+<li><p>The LLM was primarily used as a supportive tool throughout different stages of the research process. First, it assisted in <strong>code generation</strong>, including the initial development of regex-based heuristics for subpage discovery and parts of the LDA topic modeling pipeline. It also contributed to structuring the data pipeline within a Quarto (.qmd) environment, where text and code are integrated into a single reproducible document.</p></li>
+<li><p>The LLM was used for <strong>debugging and technical support</strong>, helping to resolve issues such as list-nesting errors during scraping and package dependency problems (e.g.&nbsp;<em>reshape2</em>). This enabled a smoother implementation of the data collection and analysis workflow.</p></li>
+<li><p>The LLM supported <strong>linguistic refinement and structuring</strong>. Conceptual drafts were translated and developed into academic English and it helped organize the report into a coherent and well-structured document. In this sense, the LLM functioned as a collaborative assistant particularly useful for drafting and refining text.</p></li>
+<li><p>At the same time, the use of the LLM highlights important methodological considerations. The interaction required active guidance through different types of prompts, including conceptual prompts (e.g.: expanding theoretical concepts), technical prompts (e.g.: fixing code errors) and structural prompts (e.g.: outlining the report). This reflects the role of the researcher in directing and critically evaluating AI-generated outputs. All outputs were <strong>manually verified</strong>. The R scripts were executed locally and all statistical results were checked against the raw CSV data. The interpretation of results, theoretical framing and final analytical decisions remain entirely the responsibility of the author.</p></li>
+</ul>
+<p>Overall, the use of an LLM enabled a more ambitious project scope, particularly in terms of automated scraping and topic modeling than would have been feasible. However, the author remained the principal investigator, retaining full control over the research design, methodological choices, and sociological interpretation.</p>
+</section>
+<section id="references" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> References</h1>
+<p>Alvesson, M. (2001). Knowledge work: Ambiguity, image and identity. <em>Human Relations</em>, 54(7), 863–886.</p>
+<p>Alvesson, M., &amp; Robertson, M. (2006). The Best and the Brightest: The Construction of Elite Identities in Professional Service Firms. <em>Organization</em>, 13(2), 195–224.</p>
+<p>DiMaggio, P. J., &amp; Powell, W. W. (1983). The iron cage revisited: Institutional isomorphism and collective rationality in organizational fields. <em>American Sociological Review</em>, 48(2), 147–160.</p>
+<p>Meyer, J. W., &amp; Rowan, B. (1977). Institutionalized organizations: Formal structure as myth and ceremony. <em>American Journal of Sociology</em>, 83(2), 340–363.</p>
+<p>Von Nordenflycht, A. (2010). What is a professional service firm? Toward a theory and taxonomy of knowledge-intensive firms. <em>Academy of Management Review</em>, 35(1), 155–174.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
