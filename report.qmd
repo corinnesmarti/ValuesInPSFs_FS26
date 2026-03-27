@@ -2,7 +2,7 @@
 title: "Analyzing Value Narratives in Professional Service Firms"
 subtitle: "Capstone Project | Data Mining and LLMs for Political and Social Sciences (FS 2026)"
 author: "Corinne Sybille Marti"
-date: "`r Sys.Date()`"
+date: "2026-03-27"
 format:
   html:
     toc: true
@@ -68,12 +68,12 @@ To analyze patterns in value communication, the text data was mapped onto three 
 industry_comparison <- matrix_data %>% 
   group_by(industry) %>% 
   summarise(
-    Professional = round(mean(professional_logic), 2), 
-    Commercial = round(mean(commercial_logic), 2), 
-    Innovation = round(mean(innovation_logic), 2)
-    ) 
+    Professional = round(mean(professional_logic, na.rm = TRUE), 2), 
+    Commercial = round(mean(commercial_logic, na.rm = TRUE), 2), 
+    Innovation = round(mean(innovation_logic, na.rm = TRUE), 2)
+  )
 
-kable(industry_comparison)
+knitr::kable(industry_comparison)
 ```
 ````
 
@@ -84,14 +84,11 @@ This findings suggest a *modernization gap* in professional services. While Law 
 ```` R
 ```{r}
 #| label: fig-logic
-
 #| fig-cap: "Figure 1: Comparison of Organizational Identity Logics"
-
 #| echo: false
 
-#| out-width: "100%"
-
-knitr::include_graphics("data_processed/industry_logic_comparison.png")
+ggplot(matrix_data, aes(x = industry, y = professional_logic)) +
+  geom_boxplot()
 ```
 ````
 
@@ -104,10 +101,9 @@ To go beyond predefined categories, a Latent Dirichlet Allocation (LDA) model wi
 ```` R
 ```{r}
 #| label: tbl-topics
-
 #| tbl-cap: "Table 2: Top 10 Terms per Latent Topic"
 
-kable(topic_essence)
+knitr::kable(topic_essence)
 ```
 ````
 
